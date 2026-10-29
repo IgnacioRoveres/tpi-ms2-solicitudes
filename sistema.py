@@ -6,6 +6,7 @@ import sys
 from datetime import date
 
 from sgsa.dominio import Estado, Prioridad, TipoSolicitud
+from sgsa.dto import NuevaSolicitud
 from sgsa.errores import DatoInvalido
 from sgsa.validaciones import ValidadorSolicitud
 
@@ -83,8 +84,15 @@ class Sistema:
             print("Error: " + str(error))
             return
         urgente = input("Es urgente? (s/n): ").strip().lower() == "s"
-        p = tipo.prioridad_para(urgente)
-        self.crear_solicitud(legajo, estudiante["nombre"], estudiante["email"], tipo.codigo, desc, urgente, int(p), str(date.today()))
+        nueva = NuevaSolicitud(
+            legajo=legajo,
+            nombre=estudiante["nombre"],
+            email=estudiante["email"],
+            tipo=tipo,
+            descripcion=desc,
+            urgente=urgente,
+        )
+        self.crear_solicitud(nueva, date.today())
 
     def obtener_o_pedir_estudiante(self, legajo):
         """Devuelve el estudiante registrado o pide sus datos (lanza DatoInvalido)."""
@@ -98,19 +106,20 @@ class Sistema:
         self.validador.validar_email(email)
         return {"legajo": legajo, "nombre": nombre, "email": email}
 
-    def crear_solicitud(self, legajo, nombre, email, t, desc, urgente, p, fecha):
-        self.d["estudiantes"][legajo] = {"legajo": legajo, "nombre": nombre, "email": email}
+    def crear_solicitud(self, nueva, fecha):
+        self.d["estudiantes"][nueva.legajo] = {"legajo": nueva.legajo, "nombre": nueva.nombre, "email": nueva.email}
         self.d["ultimo_id"] = self.d["ultimo_id"] + 1
-        s = {}
-        s["id"] = self.d["ultimo_id"]
-        s["legajo"] = legajo
-        s["tipo"] = t
-        s["descripcion"] = desc
-        s["urgente"] = urgente
-        s["prioridad"] = p
-        s["estado"] = Estado.PENDIENTE.codigo
-        s["responsable"] = None
-        s["fecha"] = fecha
+        s = {
+            "id": self.d["ultimo_id"],
+            "legajo": nueva.legajo,
+            "tipo": nueva.tipo.codigo,
+            "descripcion": nueva.descripcion,
+            "urgente": nueva.urgente,
+            "prioridad": int(nueva.prioridad),
+            "estado": Estado.PENDIENTE.codigo,
+            "responsable": None,
+            "fecha": fecha.isoformat(),
+        }
         self.d["solicitudes"].append(s)
         self.guardar()
         print("Solicitud registrada con ID " + str(s["id"]))
