@@ -32,3 +32,8 @@ def formatear_resumen(resumen):
 def formatear_opciones(opciones):
     """Une pares (codigo, etiqueta) como 'P-Pendiente E-En proceso'."""
     return " ".join(f"{codigo}-{etiqueta}" for codigo, etiqueta in opciones)
+
+
+def formatear_criterios(criterios):
+    """Une criterios como '1. Por legajo 2. Por estado'."""
+    return " ".join(f"{c.codigo}. Por {c.etiqueta}" for c in criterios)

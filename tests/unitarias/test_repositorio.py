@@ -79,3 +79,15 @@ def test_json_no_crea_archivo_si_no_hay_cambios(tmp_path):
     ruta = tmp_path / "solicitudes.json"
     RepositorioJSON(ruta).listar()
     assert not ruta.exists()
+
+
+def test_json_no_deja_archivos_temporales(tmp_path):
+    repo = RepositorioJSON(tmp_path / "solicitudes.json")
+    alta(repo)
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["solicitudes.json"]
+
+
+def test_reglas_de_transicion_son_de_solo_lectura():
+    from sgsa import dominio
+    with pytest.raises(TypeError):
+        dominio._TRANSICIONES_PERMITIDAS[Estado.RESUELTA] = frozenset({Estado.PENDIENTE})

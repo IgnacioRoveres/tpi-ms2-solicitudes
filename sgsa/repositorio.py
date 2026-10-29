@@ -5,6 +5,7 @@ archivo concreto. Hay dos implementaciones intercambiables (LSP):
 RepositorioJSON, la del programa, y RepositorioEnMemoria, para pruebas.
 """
 import json
+import os
 from abc import ABC, abstractmethod
 
 from sgsa.dominio import Estado, Prioridad, TipoSolicitud
@@ -106,7 +107,11 @@ class RepositorioJSON(RepositorioEnMemoria):
             "solicitudes": [_solicitud_a_dict(s) for s in self._solicitudes],
             "ultimo_id": self._ultimo_id,
         }
-        self._ruta.write_text(json.dumps(datos, indent=2, ensure_ascii=False), encoding="utf-8")
+        # Escritura atomica: si el programa se corta a mitad de camino, el
+        # archivo anterior queda intacto (os.replace es atomico).
+        temporal = self._ruta.with_name(self._ruta.name + ".tmp")
+        temporal.write_text(json.dumps(datos, indent=2, ensure_ascii=False), encoding="utf-8")
+        os.replace(temporal, self._ruta)
 
 
 def _solicitud_a_dict(solicitud):

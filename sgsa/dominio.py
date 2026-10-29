@@ -5,6 +5,7 @@ Cada valor conserva su `codigo`, que es lo que se guarda en el archivo JSON,
 para que los datos sigan siendo compatibles.
 """
 from enum import Enum, IntEnum
+from types import MappingProxyType
 
 
 class Estado(Enum):
@@ -37,12 +38,13 @@ class Estado(Enum):
 
 
 # Ciclo de vida: agregar un estado nuevo solo requiere tocar esta tabla.
-_TRANSICIONES_PERMITIDAS = {
-    Estado.PENDIENTE: {Estado.EN_PROCESO, Estado.RECHAZADA},
-    Estado.EN_PROCESO: {Estado.RESUELTA, Estado.RECHAZADA},
-    Estado.RESUELTA: set(),
-    Estado.RECHAZADA: set(),
-}
+# Es de solo lectura para que ningun modulo cambie las reglas en ejecucion.
+_TRANSICIONES_PERMITIDAS = MappingProxyType({
+    Estado.PENDIENTE: frozenset({Estado.EN_PROCESO, Estado.RECHAZADA}),
+    Estado.EN_PROCESO: frozenset({Estado.RESUELTA, Estado.RECHAZADA}),
+    Estado.RESUELTA: frozenset(),
+    Estado.RECHAZADA: frozenset(),
+})
 
 
 class Prioridad(IntEnum):

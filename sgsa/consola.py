@@ -8,10 +8,11 @@ from sgsa.busqueda import CriterioBusqueda
 from sgsa.dominio import Estado, TipoSolicitud
 from sgsa.dto import NuevaSolicitud
 from sgsa.errores import DatoInvalido, ErrorSGSA
-from sgsa.formato import formatear_opciones, formatear_resumen, formatear_solicitud
+from sgsa.formato import formatear_criterios, formatear_opciones, formatear_resumen, formatear_solicitud
 from sgsa.validaciones import ValidadorSolicitud
 
 OPCION_SALIR = "0"
+RESPUESTA_SI = "s"
 
 
 class ConsolaSolicitudes:
@@ -67,7 +68,7 @@ class ConsolaSolicitudes:
         tipo = self._validador.validar_tipo(self._leer("Tipo: "))
         descripcion = self._leer("Descripcion: ")
         self._validador.validar_descripcion(descripcion)
-        urgente = self._leer("Es urgente? (s/n): ").lower() == "s"
+        urgente = self._leer("Es urgente? (s/n): ").lower() == RESPUESTA_SI
         nueva = NuevaSolicitud(legajo, nombre, email, tipo, descripcion, urgente)
         solicitud = self._servicio.registrar(nueva)
         self._salida(f"Solicitud registrada con ID {solicitud.id}")
@@ -98,7 +99,7 @@ class ConsolaSolicitudes:
 
     def buscar(self):
         self._salida("--- Buscar ---")
-        self._salida(" ".join(f"{c.codigo}. Por {c.etiqueta}" for c in CriterioBusqueda))
+        self._salida(formatear_criterios(CriterioBusqueda))
         criterio = CriterioBusqueda.desde_codigo(self._leer("Criterio: "))
         valor = self._leer("Valor: ")
         if criterio is None:
