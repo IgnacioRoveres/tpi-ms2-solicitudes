@@ -1,0 +1,66 @@
+{
+  "codigo_salida": 0,
+  "salida": "\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Nombre y apellido: Email: Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 1\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Nombre y apellido: Email: Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 2\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Estudiante encontrado: Ana Gomez\nTipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 3\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Nombre y apellido: Email: Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 4\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Asignar responsable ---\nID de la solicitud: 1. Bedelia\n2. Secretaria Academica\n3. Tesoreria\n4. Coordinacion de Carrera\nResponsable: Solicitud 1 asignada a Secretaria Academica\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Cambiar estado ---\nID de la solicitud: Estado actual: En proceso\nNuevo estado: P-Pendiente E-En proceso R-Resuelta X-Rechazada\nEstado: Estado actualizado a Resuelta\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Cambiar estado ---\nID de la solicitud: Estado actual: Pendiente\nNuevo estado: P-Pendiente E-En proceso R-Resuelta X-Rechazada\nEstado: Estado actualizado a Rechazada\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Asignar responsable ---\nID de la solicitud: 1. Bedelia\n2. Secretaria Academica\n3. Tesoreria\n4. Coordinacion de Carrera\nResponsable: Solicitud 2 asignada a Bedelia\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Reporte ---\nTotal de solicitudes: 4\nPendientes: 1\nEn proceso: 1\nResueltas: 1\nRechazadas: 1\nAbiertas con prioridad ALTA: 1\nAbiertas sin responsable: 1\nPorcentaje resueltas: 25.0%\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: Hasta luego\n",
+  "datos": {
+    "estudiantes": {
+      "10001": {
+        "legajo": "10001",
+        "nombre": "Ana Gomez",
+        "email": "ana.gomez@example.com"
+      },
+      "10002": {
+        "legajo": "10002",
+        "nombre": "Bruno Diaz",
+        "email": "bruno.diaz@example.com"
+      },
+      "10003": {
+        "legajo": "10003",
+        "nombre": "Carla Ruiz",
+        "email": "carla.ruiz@example.com"
+      }
+    },
+    "solicitudes": [
+      {
+        "id": 1,
+        "legajo": "10001",
+        "tipo": "2",
+        "descripcion": "Reclamo por la nota del segundo parcial",
+        "urgente": true,
+        "prioridad": 3,
+        "estado": "R",
+        "responsable": "Secretaria Academica"
+      },
+      {
+        "id": 2,
+        "legajo": "10002",
+        "tipo": "1",
+        "descripcion": "Necesito certificado para el trabajo",
+        "urgente": false,
+        "prioridad": 1,
+        "estado": "E",
+        "responsable": "Bedelia"
+      },
+      {
+        "id": 3,
+        "legajo": "10001",
+        "tipo": "3",
+        "descripcion": "Pedido de equivalencia de Algebra",
+        "urgente": true,
+        "prioridad": 3,
+        "estado": "P",
+        "responsable": null
+      },
+      {
+        "id": 4,
+        "legajo": "10003",
+        "tipo": "5",
+        "descripcion": "Baja de Programacion II por superposicion",
+        "urgente": false,
+        "prioridad": 2,
+        "estado": "X",
+        "responsable": null
+      }
+    ],
+    "ultimo_id": 4
+  }
+}

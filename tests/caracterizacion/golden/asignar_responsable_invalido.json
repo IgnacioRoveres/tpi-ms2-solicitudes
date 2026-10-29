@@ -1,0 +1,26 @@
+{
+  "codigo_salida": 0,
+  "salida": "\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Nombre y apellido: Email: Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 1\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Asignar responsable ---\nID de la solicitud: 1. Bedelia\n2. Secretaria Academica\n3. Tesoreria\n4. Coordinacion de Carrera\nResponsable: Error: responsable invalido\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Asignar responsable ---\nID de la solicitud: 1. Bedelia\n2. Secretaria Academica\n3. Tesoreria\n4. Coordinacion de Carrera\nResponsable: Error: responsable invalido\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: Hasta luego\n",
+  "datos": {
+    "estudiantes": {
+      "10001": {
+        "legajo": "10001",
+        "nombre": "Ana Gomez",
+        "email": "ana.gomez@example.com"
+      }
+    },
+    "solicitudes": [
+      {
+        "id": 1,
+        "legajo": "10001",
+        "tipo": "2",
+        "descripcion": "Reclamo por la nota del segundo parcial",
+        "urgente": true,
+        "prioridad": 3,
+        "estado": "P",
+        "responsable": null
+      }
+    ],
+    "ultimo_id": 1
+  }
+}

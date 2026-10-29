@@ -1,0 +1,66 @@
+{
+  "codigo_salida": 0,
+  "salida": "\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Nombre y apellido: Email: Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 1\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Nombre y apellido: Email: Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 2\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Estudiante encontrado: Ana Gomez\nTipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 3\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Nueva solicitud ---\nLegajo: Nombre y apellido: Email: Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia\nTipo: Descripcion: Es urgente? (s/n): Solicitud registrada con ID 4\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Buscar ---\n1. Por legajo 2. Por estado 3. Por tipo 4. Por prioridad\nCriterio: Valor: #1 | 10001 | Reclamo de nota | ALTA | Pendiente | Sin asignar\n#3 | 10001 | Equivalencia de materias | ALTA | Pendiente | Sin asignar\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: --- Buscar ---\n1. Por legajo 2. Por estado 3. Por tipo 4. Por prioridad\nCriterio: Valor: #2 | 10002 | Certificado de alumno regular | BAJA | Pendiente | Sin asignar\n\n===== SISTEMA DE SOLICITUDES ACADEMICAS =====\n1. Registrar solicitud\n2. Cambiar estado\n3. Asignar responsable\n4. Buscar solicitudes\n5. Listar todas\n6. Reporte\n0. Salir\nOpcion: Hasta luego\n",
+  "datos": {
+    "estudiantes": {
+      "10001": {
+        "legajo": "10001",
+        "nombre": "Ana Gomez",
+        "email": "ana.gomez@example.com"
+      },
+      "10002": {
+        "legajo": "10002",
+        "nombre": "Bruno Diaz",
+        "email": "bruno.diaz@example.com"
+      },
+      "10003": {
+        "legajo": "10003",
+        "nombre": "Carla Ruiz",
+        "email": "carla.ruiz@example.com"
+      }
+    },
+    "solicitudes": [
+      {
+        "id": 1,
+        "legajo": "10001",
+        "tipo": "2",
+        "descripcion": "Reclamo por la nota del segundo parcial",
+        "urgente": true,
+        "prioridad": 3,
+        "estado": "P",
+        "responsable": null
+      },
+      {
+        "id": 2,
+        "legajo": "10002",
+        "tipo": "1",
+        "descripcion": "Necesito certificado para el trabajo",
+        "urgente": false,
+        "prioridad": 1,
+        "estado": "P",
+        "responsable": null
+      },
+      {
+        "id": 3,
+        "legajo": "10001",
+        "tipo": "3",
+        "descripcion": "Pedido de equivalencia de Algebra",
+        "urgente": true,
+        "prioridad": 3,
+        "estado": "P",
+        "responsable": null
+      },
+      {
+        "id": 4,
+        "legajo": "10003",
+        "tipo": "5",
+        "descripcion": "Baja de Programacion II por superposicion",
+        "urgente": false,
+        "prioridad": 2,
+        "estado": "P",
+        "responsable": null
+      }
+    ],
+    "ultimo_id": 4
+  }
+}
