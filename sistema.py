@@ -6,6 +6,8 @@ import sys
 from datetime import date
 
 from sgsa.dominio import Estado, Prioridad, TipoSolicitud
+from sgsa.errores import DatoInvalido
+from sgsa.validaciones import ValidadorSolicitud
 
 ARCHIVO = "solicitudes.json"
 
@@ -19,6 +21,7 @@ class Sistema:
 
     def __init__(self):
         self.d = datos
+        self.validador = ValidadorSolicitud()
         self.cargar()
 
     def cargar(self):
@@ -68,58 +71,32 @@ class Sistema:
 
     def registrar_solicitud(self):
         print("--- Nueva solicitud ---")
-        legajo = input("Legajo: ").strip()
-        if not self.legajo_valido(legajo):
-            print("Error: el legajo debe tener 5 digitos")
-            return
-        estudiante = self.obtener_o_pedir_estudiante(legajo)
-        if estudiante == None:
-            return
-        nombre = estudiante["nombre"]
-        email = estudiante["email"]
-        print("Tipos: " + " ".join(tipo.codigo + "-" + tipo.etiqueta for tipo in TipoSolicitud))
-        t = TipoSolicitud.desde_codigo(input("Tipo: ").strip())
-        if t == None:
-            print("Error: tipo invalido")
-            return
-        desc = input("Descripcion: ").strip()
-        if not self.descripcion_valida(desc):
-            print("Error: la descripcion debe tener al menos 10 caracteres")
+        try:
+            legajo = input("Legajo: ").strip()
+            self.validador.validar_legajo(legajo)
+            estudiante = self.obtener_o_pedir_estudiante(legajo)
+            print("Tipos: " + " ".join(tipo.codigo + "-" + tipo.etiqueta for tipo in TipoSolicitud))
+            tipo = self.validador.validar_tipo(input("Tipo: ").strip())
+            desc = input("Descripcion: ").strip()
+            self.validador.validar_descripcion(desc)
+        except DatoInvalido as error:
+            print("Error: " + str(error))
             return
         urgente = input("Es urgente? (s/n): ").strip().lower() == "s"
-        p = self.calcular_prioridad(t, urgente)
-        self.crear_solicitud(legajo, nombre, email, t.codigo, desc, urgente, int(p), str(date.today()))
-
-    def legajo_valido(self, legajo):
-        return legajo.isdigit() and len(legajo) == 5
-
-    def email_valido(self, email):
-        return "@" in email and "." in email
-
-    def descripcion_valida(self, descripcion):
-        return len(descripcion) >= 10
+        p = tipo.prioridad_para(urgente)
+        self.crear_solicitud(legajo, estudiante["nombre"], estudiante["email"], tipo.codigo, desc, urgente, int(p), str(date.today()))
 
     def obtener_o_pedir_estudiante(self, legajo):
-        """Devuelve el estudiante registrado o pide sus datos. None si son invalidos."""
+        """Devuelve el estudiante registrado o pide sus datos (lanza DatoInvalido)."""
         if legajo in self.d["estudiantes"]:
             estudiante = self.d["estudiantes"][legajo]
             print("Estudiante encontrado: " + estudiante["nombre"])
             return estudiante
         nombre = input("Nombre y apellido: ").strip()
-        if nombre == "":
-            print("Error: el nombre es obligatorio")
-            return None
+        self.validador.validar_nombre(nombre)
         email = input("Email: ").strip()
-        if not self.email_valido(email):
-            print("Error: email invalido")
-            return None
+        self.validador.validar_email(email)
         return {"legajo": legajo, "nombre": nombre, "email": email}
-
-    def calcular_prioridad(self, tipo, urgente):
-        prioridad = tipo.prioridad_base
-        if urgente:
-            prioridad = prioridad.elevada()
-        return prioridad
 
     def crear_solicitud(self, legajo, nombre, email, t, desc, urgente, p, fecha):
         self.d["estudiantes"][legajo] = {"legajo": legajo, "nombre": nombre, "email": email}
@@ -256,7 +233,7 @@ class Sistema:
             print("Porcentaje resueltas: 0%")
 
     def esta_abierta(self, solicitud):
-        return not Estado.desde_codigo(solicitud["estado"]).es_final
+        return Estado.desde_codigo(solicitud["estado"]).esta_abierto
 
     def buscar_por_id(self, id_solicitud):
         for solicitud in self.d["solicitudes"]:

@@ -28,6 +28,10 @@ class Estado(Enum):
     def es_final(self):
         return not _TRANSICIONES_PERMITIDAS[self]
 
+    @property
+    def esta_abierto(self):
+        return not self.es_final
+
     def puede_pasar_a(self, nuevo_estado):
         return nuevo_estado in _TRANSICIONES_PERMITIDAS[self]
 
@@ -66,6 +70,10 @@ class TipoSolicitud(Enum):
         self.codigo = codigo
         self.etiqueta = etiqueta
         self.prioridad_base = prioridad_base
+
+    def prioridad_para(self, urgente):
+        """Regla de negocio: la urgencia sube un nivel la prioridad del tipo."""
+        return self.prioridad_base.elevada() if urgente else self.prioridad_base
 
     @classmethod
     def desde_codigo(cls, codigo):
