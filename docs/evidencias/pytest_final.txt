@@ -1,0 +1,127 @@
+# Suite completa sobre estado-refactorizado
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/tpi-ms2-solicitudes
+plugins: platformdirs-4.13.0, anyio-4.15.1, cov-7.1.0
+collecting ... collected 97 items
+
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[asignar_pendiente_pasa_a_en_proceso] PASSED [  1%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[asignar_reasignar_en_proceso] PASSED [  2%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[asignar_responsable_invalido] PASSED [  3%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[asignar_solicitud_cerrada] PASSED [  4%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[asignar_solicitud_inexistente] PASSED [  5%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[buscar_criterio_invalido] PASSED [  6%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[buscar_por_estado] PASSED [  7%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[buscar_por_legajo] PASSED [  8%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[buscar_por_prioridad] PASSED [  9%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[buscar_por_tipo] PASSED [ 10%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[buscar_sin_resultados] PASSED [ 11%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[estado_cerrada_no_cambia] PASSED [ 12%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[estado_flujo_completo] PASSED [ 13%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[estado_rechazo_desde_pendiente] PASSED [ 14%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[estado_solicitud_inexistente] PASSED [ 15%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[estado_transicion_invalida] PASSED [ 16%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[estado_valor_invalido] PASSED [ 17%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[listar_con_datos] PASSED [ 18%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[listar_vacio] PASSED [ 19%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[menu_opcion_invalida] PASSED [ 20%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_descripcion_corta] PASSED [ 21%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_email_invalido] PASSED [ 22%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_estudiante_existente] PASSED [ 23%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_estudiante_nuevo] PASSED [ 24%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_legajo_invalido] PASSED [ 25%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_nombre_vacio] PASSED [ 26%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_prioridades] PASSED [ 27%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[registro_tipo_invalido] PASSED [ 28%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[reporte_con_datos] PASSED [ 29%]
+tests/caracterizacion/test_caracterizacion.py::test_comportamiento_igual_a_version_inicial[reporte_vacio] PASSED [ 30%]
+tests/test_mejoras_comportamiento.py::test_id_no_numerico_no_corta_el_programa PASSED [ 31%]
+tests/test_mejoras_comportamiento.py::test_responsable_no_numerico_se_informa_como_invalido PASSED [ 32%]
+tests/test_mejoras_comportamiento.py::test_archivo_danado_no_se_sobrescribe PASSED [ 34%]
+tests/unitarias/test_consola.py::test_registro_y_listado PASSED          [ 35%]
+tests/unitarias/test_consola.py::test_errores_de_negocio_se_muestran_y_el_menu_sigue PASSED [ 36%]
+tests/unitarias/test_consola.py::test_menu_se_arma_desde_la_tabla_de_opciones PASSED [ 37%]
+tests/unitarias/test_dominio.py::test_prioridad_segun_tipo_y_urgencia[TipoSolicitud.CERTIFICADO_ALUMNO_REGULAR-False-1] PASSED [ 38%]
+tests/unitarias/test_dominio.py::test_prioridad_segun_tipo_y_urgencia[TipoSolicitud.CERTIFICADO_ALUMNO_REGULAR-True-2] PASSED [ 39%]
+tests/unitarias/test_dominio.py::test_prioridad_segun_tipo_y_urgencia[TipoSolicitud.EQUIVALENCIA_DE_MATERIAS-False-2] PASSED [ 40%]
+tests/unitarias/test_dominio.py::test_prioridad_segun_tipo_y_urgencia[TipoSolicitud.EQUIVALENCIA_DE_MATERIAS-True-3] PASSED [ 41%]
+tests/unitarias/test_dominio.py::test_prioridad_segun_tipo_y_urgencia[TipoSolicitud.RECLAMO_DE_NOTA-False-3] PASSED [ 42%]
+tests/unitarias/test_dominio.py::test_prioridad_segun_tipo_y_urgencia[TipoSolicitud.RECLAMO_DE_NOTA-True-3] PASSED [ 43%]
+tests/unitarias/test_dominio.py::test_solicitud_registrada_arranca_pendiente_y_sin_responsable PASSED [ 44%]
+tests/unitarias/test_dominio.py::test_transiciones_permitidas[Estado.PENDIENTE-Estado.EN_PROCESO] PASSED [ 45%]
+tests/unitarias/test_dominio.py::test_transiciones_permitidas[Estado.PENDIENTE-Estado.RECHAZADA] PASSED [ 46%]
+tests/unitarias/test_dominio.py::test_transiciones_permitidas[Estado.EN_PROCESO-Estado.RESUELTA] PASSED [ 47%]
+tests/unitarias/test_dominio.py::test_transiciones_permitidas[Estado.EN_PROCESO-Estado.RECHAZADA] PASSED [ 48%]
+tests/unitarias/test_dominio.py::test_transiciones_prohibidas[Estado.PENDIENTE-Estado.RESUELTA] PASSED [ 49%]
+tests/unitarias/test_dominio.py::test_transiciones_prohibidas[Estado.PENDIENTE-Estado.PENDIENTE] PASSED [ 50%]
+tests/unitarias/test_dominio.py::test_transiciones_prohibidas[Estado.EN_PROCESO-Estado.PENDIENTE] PASSED [ 51%]
+tests/unitarias/test_dominio.py::test_transiciones_prohibidas[Estado.RESUELTA-Estado.EN_PROCESO] PASSED [ 52%]
+tests/unitarias/test_dominio.py::test_transiciones_prohibidas[Estado.RECHAZADA-Estado.PENDIENTE] PASSED [ 53%]
+tests/unitarias/test_dominio.py::test_asignar_pendiente_la_pasa_a_en_proceso PASSED [ 54%]
+tests/unitarias/test_dominio.py::test_reasignar_en_proceso_mantiene_el_estado PASSED [ 55%]
+tests/unitarias/test_dominio.py::test_no_se_asigna_una_solicitud_cerrada[Estado.RESUELTA] PASSED [ 56%]
+tests/unitarias/test_dominio.py::test_no_se_asigna_una_solicitud_cerrada[Estado.RECHAZADA] PASSED [ 57%]
+tests/unitarias/test_dominio.py::test_codigos_desconocidos_devuelven_none PASSED [ 58%]
+tests/unitarias/test_reporte.py::test_resumen_vacio PASSED               [ 59%]
+tests/unitarias/test_reporte.py::test_resumen_cuenta_solo_abiertas_en_alta_y_sin_responsable PASSED [ 60%]
+tests/unitarias/test_repositorio.py::test_ids_consecutivos[memoria] PASSED [ 61%]
+tests/unitarias/test_repositorio.py::test_ids_consecutivos[json] PASSED  [ 62%]
+tests/unitarias/test_repositorio.py::test_obtener_y_listar[memoria] PASSED [ 63%]
+tests/unitarias/test_repositorio.py::test_obtener_y_listar[json] PASSED  [ 64%]
+tests/unitarias/test_repositorio.py::test_estudiante_guardado[memoria] PASSED [ 65%]
+tests/unitarias/test_repositorio.py::test_estudiante_guardado[json] PASSED [ 67%]
+tests/unitarias/test_repositorio.py::test_json_persiste_entre_instancias PASSED [ 68%]
+tests/unitarias/test_repositorio.py::test_json_lee_archivos_de_la_version_inicial PASSED [ 69%]
+tests/unitarias/test_repositorio.py::test_json_danado_lanza_error_y_no_toca_el_archivo[{"estudiantes": ] PASSED [ 70%]
+tests/unitarias/test_repositorio.py::test_json_danado_lanza_error_y_no_toca_el_archivo[{"otra": 1}] PASSED [ 71%]
+tests/unitarias/test_repositorio.py::test_json_danado_lanza_error_y_no_toca_el_archivo[{"estudiantes": {}, "solicitudes": [{"id": 1, "tipo": "9"}], "ultimo_id": 1}] PASSED [ 72%]
+tests/unitarias/test_repositorio.py::test_json_no_crea_archivo_si_no_hay_cambios PASSED [ 73%]
+tests/unitarias/test_servicio.py::test_registrar_asigna_id_fecha_y_prioridad PASSED [ 74%]
+tests/unitarias/test_servicio.py::test_registrar_valida_aunque_no_pase_por_la_consola PASSED [ 75%]
+tests/unitarias/test_servicio.py::test_cambiar_estado PASSED             [ 76%]
+tests/unitarias/test_servicio.py::test_solicitud_inexistente PASSED      [ 77%]
+tests/unitarias/test_servicio.py::test_asignar_responsable PASSED        [ 78%]
+tests/unitarias/test_servicio.py::test_asignar_responsable_fuera_del_catalogo PASSED [ 79%]
+tests/unitarias/test_servicio.py::test_obtener_asignable_rechaza_cerradas PASSED [ 80%]
+tests/unitarias/test_servicio.py::test_catalogo_de_responsables_inyectable PASSED [ 81%]
+tests/unitarias/test_servicio.py::test_buscar[CriterioBusqueda.LEGAJO-10001-ids0] PASSED [ 82%]
+tests/unitarias/test_servicio.py::test_buscar[CriterioBusqueda.ESTADO-p-ids1] PASSED [ 83%]
+tests/unitarias/test_servicio.py::test_buscar[CriterioBusqueda.TIPO-1-ids2] PASSED [ 84%]
+tests/unitarias/test_servicio.py::test_buscar[CriterioBusqueda.PRIORIDAD-3-ids3] PASSED [ 85%]
+tests/unitarias/test_servicio.py::test_buscar[CriterioBusqueda.PRIORIDAD-ALTA-ids4] PASSED [ 86%]
+tests/unitarias/test_validaciones.py::test_legajo_valido[12345] PASSED   [ 87%]
+tests/unitarias/test_validaciones.py::test_legajo_valido[00001] PASSED   [ 88%]
+tests/unitarias/test_validaciones.py::test_legajo_invalido[] PASSED      [ 89%]
+tests/unitarias/test_validaciones.py::test_legajo_invalido[1234] PASSED  [ 90%]
+tests/unitarias/test_validaciones.py::test_legajo_invalido[123456] PASSED [ 91%]
+tests/unitarias/test_validaciones.py::test_legajo_invalido[12a45] PASSED [ 92%]
+tests/unitarias/test_validaciones.py::test_legajo_invalido[ 1234] PASSED [ 93%]
+tests/unitarias/test_validaciones.py::test_email_invalido[sinarroba.com] PASSED [ 94%]
+tests/unitarias/test_validaciones.py::test_email_invalido[a@sinpunto] PASSED [ 95%]
+tests/unitarias/test_validaciones.py::test_email_invalido[] PASSED       [ 96%]
+tests/unitarias/test_validaciones.py::test_nombre_obligatorio PASSED     [ 97%]
+tests/unitarias/test_validaciones.py::test_descripcion_en_el_limite PASSED [ 98%]
+tests/unitarias/test_validaciones.py::test_tipo_valido_devuelve_el_enum_e_invalido_falla PASSED [100%]/usr/local/lib/python3.13/site-packages/coverage/inorout.py:558: CoverageWarning: Module sistema was never imported. (module-not-imported); see https://coverage.readthedocs.io/en/7.17.0/messages.html#warning-module-not-imported
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.18-final-0 _______________
+
+Name                   Stmts   Miss  Cover   Missing
+----------------------------------------------------
+sgsa/__init__.py           0      0   100%
+sgsa/busqueda.py          13      0   100%
+sgsa/consola.py          116     29    75%   44-45, 78-84, 89-97, 106-110, 116, 121-123, 130-131
+sgsa/dominio.py           51      0   100%
+sgsa/dto.py               13      0   100%
+sgsa/errores.py           13      0   100%
+sgsa/formato.py            9      0   100%
+sgsa/modelos.py           39      0   100%
+sgsa/reporte.py           17      0   100%
+sgsa/repositorio.py       64      1    98%   130
+sgsa/servicio.py          54      3    94%   25, 46, 69
+sgsa/validaciones.py      22      0   100%
+----------------------------------------------------
+TOTAL                    411     33    92%
+============================== 97 passed  ==============================

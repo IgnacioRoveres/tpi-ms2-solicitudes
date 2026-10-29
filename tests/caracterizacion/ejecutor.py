@@ -1,12 +1,15 @@
 """Ejecuta el programa como caja negra y captura lo observable."""
 import json
+import os
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
-PROGRAMA = RAIZ / "sistema.py"
+# SGSA_PROGRAMA permite correr las mismas pruebas contra otra version
+# (por ejemplo, un checkout del tag estado-inicial). Ver docs/evidencias.
+PROGRAMA = Path(os.environ.get("SGSA_PROGRAMA", RAIZ / "sistema.py"))
 CARPETA_GOLDEN = Path(__file__).parent / "golden"
 
 
