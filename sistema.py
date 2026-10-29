@@ -69,38 +69,57 @@ class Sistema:
     def registrar_solicitud(self):
         print("--- Nueva solicitud ---")
         legajo = input("Legajo: ").strip()
-        # validar legajo
-        if not legajo.isdigit() or len(legajo) != 5:
+        if not self.legajo_valido(legajo):
             print("Error: el legajo debe tener 5 digitos")
             return
-        if legajo in self.d["estudiantes"]:
-            nombre = self.d["estudiantes"][legajo]["nombre"]
-            email = self.d["estudiantes"][legajo]["email"]
-            print("Estudiante encontrado: " + nombre)
-        else:
-            nombre = input("Nombre y apellido: ").strip()
-            if nombre == "":
-                print("Error: el nombre es obligatorio")
-                return
-            email = input("Email: ").strip()
-            if "@" not in email or "." not in email:
-                print("Error: email invalido")
-                return
+        estudiante = self.obtener_o_pedir_estudiante(legajo)
+        if estudiante == None:
+            return
+        nombre = estudiante["nombre"]
+        email = estudiante["email"]
         print("Tipos: " + " ".join(tipo.codigo + "-" + tipo.etiqueta for tipo in TipoSolicitud))
         t = TipoSolicitud.desde_codigo(input("Tipo: ").strip())
         if t == None:
             print("Error: tipo invalido")
             return
         desc = input("Descripcion: ").strip()
-        if len(desc) < 10:
+        if not self.descripcion_valida(desc):
             print("Error: la descripcion debe tener al menos 10 caracteres")
             return
-        urg = input("Es urgente? (s/n): ").strip().lower()
-        # calcular prioridad
-        p = t.prioridad_base
-        if urg == "s":
-            p = p.elevada()
-        self.crear_solicitud(legajo, nombre, email, t.codigo, desc, urg == "s", int(p), str(date.today()))
+        urgente = input("Es urgente? (s/n): ").strip().lower() == "s"
+        p = self.calcular_prioridad(t, urgente)
+        self.crear_solicitud(legajo, nombre, email, t.codigo, desc, urgente, int(p), str(date.today()))
+
+    def legajo_valido(self, legajo):
+        return legajo.isdigit() and len(legajo) == 5
+
+    def email_valido(self, email):
+        return "@" in email and "." in email
+
+    def descripcion_valida(self, descripcion):
+        return len(descripcion) >= 10
+
+    def obtener_o_pedir_estudiante(self, legajo):
+        """Devuelve el estudiante registrado o pide sus datos. None si son invalidos."""
+        if legajo in self.d["estudiantes"]:
+            estudiante = self.d["estudiantes"][legajo]
+            print("Estudiante encontrado: " + estudiante["nombre"])
+            return estudiante
+        nombre = input("Nombre y apellido: ").strip()
+        if nombre == "":
+            print("Error: el nombre es obligatorio")
+            return None
+        email = input("Email: ").strip()
+        if not self.email_valido(email):
+            print("Error: email invalido")
+            return None
+        return {"legajo": legajo, "nombre": nombre, "email": email}
+
+    def calcular_prioridad(self, tipo, urgente):
+        prioridad = tipo.prioridad_base
+        if urgente:
+            prioridad = prioridad.elevada()
+        return prioridad
 
     def crear_solicitud(self, legajo, nombre, email, t, desc, urgente, p, fecha):
         self.d["estudiantes"][legajo] = {"legajo": legajo, "nombre": nombre, "email": email}
@@ -121,16 +140,8 @@ class Sistema:
 
     def cambiar_estado(self):
         print("--- Cambiar estado ---")
-        id = self.pedir_numero("ID de la solicitud: ")
-        if id == None:
-            print("Error: el ID debe ser un numero")
-            return
-        sol = None
-        for x in self.d["solicitudes"]:
-            if x["id"] == id:
-                sol = x
+        sol = self.pedir_solicitud()
         if sol == None:
-            print("Error: no existe la solicitud " + str(id))
             return
         actual = Estado.desde_codigo(sol["estado"])
         print("Estado actual: " + actual.etiqueta)
@@ -148,18 +159,10 @@ class Sistema:
 
     def asignar(self):
         print("--- Asignar responsable ---")
-        id = self.pedir_numero("ID de la solicitud: ")
-        if id == None:
-            print("Error: el ID debe ser un numero")
-            return
-        sol = None
-        for x in self.d["solicitudes"]:
-            if x["id"] == id:
-                sol = x
+        sol = self.pedir_solicitud()
         if sol == None:
-            print("Error: no existe la solicitud " + str(id))
             return
-        if Estado.desde_codigo(sol["estado"]).es_final:
+        if not self.esta_abierta(sol):
             print("Error: la solicitud esta cerrada")
             return
         i = 1
@@ -174,7 +177,7 @@ class Sistema:
         if sol["estado"] == Estado.PENDIENTE.codigo:
             sol["estado"] = Estado.EN_PROCESO.codigo
         self.guardar()
-        print("Solicitud " + str(id) + " asignada a " + RESPONSABLES[n - 1])
+        print("Solicitud " + str(sol["id"]) + " asignada a " + RESPONSABLES[n - 1])
 
     def buscar(self):
         print("--- Buscar ---")
@@ -205,13 +208,7 @@ class Sistema:
             print("No se encontraron solicitudes")
             return
         for x in l:
-            # mostrar
-            tn = TipoSolicitud.desde_codigo(x["tipo"]).etiqueta
-            pn = Prioridad(x["prioridad"]).etiqueta
-            r = x["responsable"]
-            if r == None:
-                r = "Sin asignar"
-            print("#" + str(x["id"]) + " | " + x["legajo"] + " | " + tn + " | " + pn + " | " + self.nombre_estado(x["estado"]) + " | " + r)
+            print(self.formatear_fila(x))
 
     def listar(self):
         print("--- Todas las solicitudes ---")
@@ -219,12 +216,14 @@ class Sistema:
             print("No hay solicitudes cargadas")
             return
         for x in self.d["solicitudes"]:
-            tn = TipoSolicitud.desde_codigo(x["tipo"]).etiqueta
-            pn = Prioridad(x["prioridad"]).etiqueta
-            r = x["responsable"]
-            if r == None:
-                r = "Sin asignar"
-            print("#" + str(x["id"]) + " | " + x["legajo"] + " | " + tn + " | " + pn + " | " + self.nombre_estado(x["estado"]) + " | " + r)
+            print(self.formatear_fila(x))
+
+    def formatear_fila(self, solicitud):
+        tipo = TipoSolicitud.desde_codigo(solicitud["tipo"]).etiqueta
+        prioridad = Prioridad(solicitud["prioridad"]).etiqueta
+        estado = self.nombre_estado(solicitud["estado"])
+        responsable = solicitud["responsable"] or "Sin asignar"
+        return " | ".join(["#" + str(solicitud["id"]), solicitud["legajo"], tipo, prioridad, estado, responsable])
 
     def reporte(self):
         print("--- Reporte ---")
@@ -242,12 +241,12 @@ class Sistema:
         r = cantidad[Estado.RESUELTA]
         alta = 0
         for s in self.d["solicitudes"]:
-            if s["prioridad"] == Prioridad.ALTA and not Estado.desde_codigo(s["estado"]).es_final:
+            if s["prioridad"] == Prioridad.ALTA and self.esta_abierta(s):
                 alta = alta + 1
         print("Abiertas con prioridad ALTA: " + str(alta))
         sin = 0
         for s in self.d["solicitudes"]:
-            if s["responsable"] == None and not Estado.desde_codigo(s["estado"]).es_final:
+            if s["responsable"] == None and self.esta_abierta(s):
                 sin = sin + 1
         print("Abiertas sin responsable: " + str(sin))
         # porcentaje resueltas
@@ -255,6 +254,26 @@ class Sistema:
             print("Porcentaje resueltas: " + str(round(r * 100 / total, 1)) + "%")
         else:
             print("Porcentaje resueltas: 0%")
+
+    def esta_abierta(self, solicitud):
+        return not Estado.desde_codigo(solicitud["estado"]).es_final
+
+    def buscar_por_id(self, id_solicitud):
+        for solicitud in self.d["solicitudes"]:
+            if solicitud["id"] == id_solicitud:
+                return solicitud
+        return None
+
+    def pedir_solicitud(self):
+        """Pide un ID por teclado y devuelve la solicitud, o None informando el error."""
+        id_solicitud = self.pedir_numero("ID de la solicitud: ")
+        if id_solicitud == None:
+            print("Error: el ID debe ser un numero")
+            return None
+        solicitud = self.buscar_por_id(id_solicitud)
+        if solicitud == None:
+            print("Error: no existe la solicitud " + str(id_solicitud))
+        return solicitud
 
     def pedir_numero(self, mensaje):
         try:
