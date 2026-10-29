@@ -5,6 +5,8 @@ import os
 import sys
 from datetime import date
 
+from sgsa.dominio import Estado, Prioridad, TipoSolicitud
+
 ARCHIVO = "solicitudes.json"
 
 # responsables disponibles
@@ -84,9 +86,9 @@ class Sistema:
             if "@" not in email or "." not in email:
                 print("Error: email invalido")
                 return
-        print("Tipos: 1-Certificado de alumno regular 2-Reclamo de nota 3-Equivalencia de materias 4-Excepcion de correlatividad 5-Baja de materia")
-        t = input("Tipo: ").strip()
-        if t not in ["1", "2", "3", "4", "5"]:
+        print("Tipos: " + " ".join(tipo.codigo + "-" + tipo.etiqueta for tipo in TipoSolicitud))
+        t = TipoSolicitud.desde_codigo(input("Tipo: ").strip())
+        if t == None:
             print("Error: tipo invalido")
             return
         desc = input("Descripcion: ").strip()
@@ -95,17 +97,10 @@ class Sistema:
             return
         urg = input("Es urgente? (s/n): ").strip().lower()
         # calcular prioridad
-        if t == "2":
-            p = 3
-        elif t == "1":
-            p = 1
-        else:
-            p = 2
+        p = t.prioridad_base
         if urg == "s":
-            p = p + 1
-            if p > 3:
-                p = 3
-        self.crear_solicitud(legajo, nombre, email, t, desc, urg == "s", p, str(date.today()))
+            p = p.elevada()
+        self.crear_solicitud(legajo, nombre, email, t.codigo, desc, urg == "s", int(p), str(date.today()))
 
     def crear_solicitud(self, legajo, nombre, email, t, desc, urgente, p, fecha):
         self.d["estudiantes"][legajo] = {"legajo": legajo, "nombre": nombre, "email": email}
@@ -117,7 +112,7 @@ class Sistema:
         s["descripcion"] = desc
         s["urgente"] = urgente
         s["prioridad"] = p
-        s["estado"] = "P"
+        s["estado"] = Estado.PENDIENTE.codigo
         s["responsable"] = None
         s["fecha"] = fecha
         self.d["solicitudes"].append(s)
@@ -137,24 +132,19 @@ class Sistema:
         if sol == None:
             print("Error: no existe la solicitud " + str(id))
             return
-        print("Estado actual: " + self.nombre_estado(sol["estado"]))
-        print("Nuevo estado: P-Pendiente E-En proceso R-Resuelta X-Rechazada")
-        nuevo = input("Estado: ").strip().upper()
-        if nuevo not in ["P", "E", "R", "X"]:
+        actual = Estado.desde_codigo(sol["estado"])
+        print("Estado actual: " + actual.etiqueta)
+        print("Nuevo estado: " + " ".join(e.codigo + "-" + e.etiqueta for e in Estado))
+        nuevo = Estado.desde_codigo(input("Estado: ").strip().upper())
+        if nuevo == None:
             print("Error: estado invalido")
             return
-        # reglas de transicion
-        ok = False
-        if sol["estado"] == "P" and (nuevo == "E" or nuevo == "X"):
-            ok = True
-        if sol["estado"] == "E" and (nuevo == "R" or nuevo == "X"):
-            ok = True
-        if ok == False:
-            print("Error: no se puede pasar de " + self.nombre_estado(sol["estado"]) + " a " + self.nombre_estado(nuevo))
+        if not actual.puede_pasar_a(nuevo):
+            print("Error: no se puede pasar de " + actual.etiqueta + " a " + nuevo.etiqueta)
             return
-        sol["estado"] = nuevo
+        sol["estado"] = nuevo.codigo
         self.guardar()
-        print("Estado actualizado a " + self.nombre_estado(nuevo))
+        print("Estado actualizado a " + nuevo.etiqueta)
 
     def asignar(self):
         print("--- Asignar responsable ---")
@@ -169,7 +159,7 @@ class Sistema:
         if sol == None:
             print("Error: no existe la solicitud " + str(id))
             return
-        if sol["estado"] == "R" or sol["estado"] == "X":
+        if Estado.desde_codigo(sol["estado"]).es_final:
             print("Error: la solicitud esta cerrada")
             return
         i = 1
@@ -181,8 +171,8 @@ class Sistema:
             print("Error: responsable invalido")
             return
         sol["responsable"] = RESPONSABLES[n - 1]
-        if sol["estado"] == "P":
-            sol["estado"] = "E"
+        if sol["estado"] == Estado.PENDIENTE.codigo:
+            sol["estado"] = Estado.EN_PROCESO.codigo
         self.guardar()
         print("Solicitud " + str(id) + " asignada a " + RESPONSABLES[n - 1])
 
@@ -216,24 +206,8 @@ class Sistema:
             return
         for x in l:
             # mostrar
-            tn = ""
-            if x["tipo"] == "1":
-                tn = "Certificado de alumno regular"
-            elif x["tipo"] == "2":
-                tn = "Reclamo de nota"
-            elif x["tipo"] == "3":
-                tn = "Equivalencia de materias"
-            elif x["tipo"] == "4":
-                tn = "Excepcion de correlatividad"
-            elif x["tipo"] == "5":
-                tn = "Baja de materia"
-            pn = ""
-            if x["prioridad"] == 1:
-                pn = "BAJA"
-            elif x["prioridad"] == 2:
-                pn = "MEDIA"
-            else:
-                pn = "ALTA"
+            tn = TipoSolicitud.desde_codigo(x["tipo"]).etiqueta
+            pn = Prioridad(x["prioridad"]).etiqueta
             r = x["responsable"]
             if r == None:
                 r = "Sin asignar"
@@ -245,24 +219,8 @@ class Sistema:
             print("No hay solicitudes cargadas")
             return
         for x in self.d["solicitudes"]:
-            tn = ""
-            if x["tipo"] == "1":
-                tn = "Certificado de alumno regular"
-            elif x["tipo"] == "2":
-                tn = "Reclamo de nota"
-            elif x["tipo"] == "3":
-                tn = "Equivalencia de materias"
-            elif x["tipo"] == "4":
-                tn = "Excepcion de correlatividad"
-            elif x["tipo"] == "5":
-                tn = "Baja de materia"
-            pn = ""
-            if x["prioridad"] == 1:
-                pn = "BAJA"
-            elif x["prioridad"] == 2:
-                pn = "MEDIA"
-            else:
-                pn = "ALTA"
+            tn = TipoSolicitud.desde_codigo(x["tipo"]).etiqueta
+            pn = Prioridad(x["prioridad"]).etiqueta
             r = x["responsable"]
             if r == None:
                 r = "Sin asignar"
@@ -272,31 +230,24 @@ class Sistema:
         print("--- Reporte ---")
         total = len(self.d["solicitudes"])
         print("Total de solicitudes: " + str(total))
-        p = 0
-        e = 0
-        r = 0
-        x = 0
+        cantidad = {}
+        for estado in Estado:
+            cantidad[estado] = 0
         for s in self.d["solicitudes"]:
-            if s["estado"] == "P":
-                p = p + 1
-            if s["estado"] == "E":
-                e = e + 1
-            if s["estado"] == "R":
-                r = r + 1
-            if s["estado"] == "X":
-                x = x + 1
-        print("Pendientes: " + str(p))
-        print("En proceso: " + str(e))
-        print("Resueltas: " + str(r))
-        print("Rechazadas: " + str(x))
+            cantidad[Estado.desde_codigo(s["estado"])] += 1
+        print("Pendientes: " + str(cantidad[Estado.PENDIENTE]))
+        print("En proceso: " + str(cantidad[Estado.EN_PROCESO]))
+        print("Resueltas: " + str(cantidad[Estado.RESUELTA]))
+        print("Rechazadas: " + str(cantidad[Estado.RECHAZADA]))
+        r = cantidad[Estado.RESUELTA]
         alta = 0
         for s in self.d["solicitudes"]:
-            if s["prioridad"] == 3 and s["estado"] != "R" and s["estado"] != "X":
+            if s["prioridad"] == Prioridad.ALTA and not Estado.desde_codigo(s["estado"]).es_final:
                 alta = alta + 1
         print("Abiertas con prioridad ALTA: " + str(alta))
         sin = 0
         for s in self.d["solicitudes"]:
-            if s["responsable"] == None and s["estado"] != "R" and s["estado"] != "X":
+            if s["responsable"] == None and not Estado.desde_codigo(s["estado"]).es_final:
                 sin = sin + 1
         print("Abiertas sin responsable: " + str(sin))
         # porcentaje resueltas
@@ -312,15 +263,7 @@ class Sistema:
             return None
 
     def nombre_estado(self, e):
-        if e == "P":
-            return "Pendiente"
-        if e == "E":
-            return "En proceso"
-        if e == "R":
-            return "Resuelta"
-        if e == "X":
-            return "Rechazada"
-        return "?"
+        return Estado.desde_codigo(e).etiqueta
 
     # def exportar_csv(self):
     #     f = open("export.csv", "w")
