@@ -2,6 +2,7 @@
 # version 1.0 - hecho rapido para la demo
 import json
 import os
+import sys
 from datetime import date
 
 ARCHIVO = "solicitudes.json"
@@ -19,13 +20,14 @@ class Sistema:
         self.cargar()
 
     def cargar(self):
+        if not os.path.exists(ARCHIVO):
+            return
         try:
-            if os.path.exists(ARCHIVO):
-                f = open(ARCHIVO, "r", encoding="utf-8")
+            with open(ARCHIVO, "r", encoding="utf-8") as f:
                 self.d = json.load(f)
-                f.close()
-        except:
-            pass
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            print("Error: el archivo " + ARCHIVO + " esta danado y no se modifico. Reviselo o eliminelo para empezar de cero.")
+            sys.exit(1)
 
     def guardar(self):
         f = open(ARCHIVO, "w", encoding="utf-8")
@@ -124,7 +126,10 @@ class Sistema:
 
     def cambiar_estado(self):
         print("--- Cambiar estado ---")
-        id = int(input("ID de la solicitud: "))
+        id = self.pedir_numero("ID de la solicitud: ")
+        if id == None:
+            print("Error: el ID debe ser un numero")
+            return
         sol = None
         for x in self.d["solicitudes"]:
             if x["id"] == id:
@@ -153,7 +158,10 @@ class Sistema:
 
     def asignar(self):
         print("--- Asignar responsable ---")
-        id = int(input("ID de la solicitud: "))
+        id = self.pedir_numero("ID de la solicitud: ")
+        if id == None:
+            print("Error: el ID debe ser un numero")
+            return
         sol = None
         for x in self.d["solicitudes"]:
             if x["id"] == id:
@@ -168,8 +176,8 @@ class Sistema:
         for r in RESPONSABLES:
             print(str(i) + ". " + r)
             i = i + 1
-        n = int(input("Responsable: "))
-        if n < 1 or n > 4:
+        n = self.pedir_numero("Responsable: ")
+        if n == None or n < 1 or n > 4:
             print("Error: responsable invalido")
             return
         sol["responsable"] = RESPONSABLES[n - 1]
@@ -296,6 +304,12 @@ class Sistema:
             print("Porcentaje resueltas: " + str(round(r * 100 / total, 1)) + "%")
         else:
             print("Porcentaje resueltas: 0%")
+
+    def pedir_numero(self, mensaje):
+        try:
+            return int(input(mensaje))
+        except ValueError:
+            return None
 
     def nombre_estado(self, e):
         if e == "P":
