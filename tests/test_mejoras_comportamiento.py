@@ -5,7 +5,6 @@ No forman parte del golden master porque ahi el comportamiento era un error.
 """
 import subprocess
 import sys
-from pathlib import Path
 
 from tests.caracterizacion.ejecutor import PROGRAMA, ejecutar
 from tests.caracterizacion.escenarios import ALTA_ANA

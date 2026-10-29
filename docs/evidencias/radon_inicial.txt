@@ -1,0 +1,18 @@
+/tmp/claude-0/-home-claude/ecd1303e-9d03-5998-a648-ed4d11415133/scratchpad/ini/sistema.py
+    M 181:4 Sistema.buscar - D (23)
+    M 263:4 Sistema.reporte - C (15)
+    M 65:4 Sistema.registrar_solicitud - C (13)
+    M 125:4 Sistema.cambiar_estado - C (12)
+    M 234:4 Sistema.listar - C (11)
+    M 154:4 Sistema.asignar - B (10)
+    C 15:0 Sistema - B (9)
+    M 35:4 Sistema.menu - B (9)
+    M 300:4 Sistema.nombre_estado - A (5)
+    M 21:4 Sistema.cargar - A (3)
+    M 17:4 Sistema.__init__ - A (1)
+    M 30:4 Sistema.guardar - A (1)
+    M 108:4 Sistema.crear_solicitud - A (1)
+
+13 blocks (classes, functions, methods) analyzed.
+Average complexity: B (8.692307692307692)
+/tmp/claude-0/-home-claude/ecd1303e-9d03-5998-a648-ed4d11415133/scratchpad/ini/sistema.py - A (19.71)
