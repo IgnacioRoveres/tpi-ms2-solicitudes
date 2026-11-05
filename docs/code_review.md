@@ -1,7 +1,7 @@
 # Code review — versión refactorizada
 
 - **Alcance revisado:** todos los commits entre los tags `etapa-diagnostico` y `etapa-pruebas` (de `fix: manejo de entrada…` a `test: pruebas unitarias…`).
-- **Autores del código:** Integrante 1 e Integrante 2. Revisión cruzada: cada integrante revisó los commits del otro.
+- **Autores del código:** Ignacio Roveres y Nidia Samaniego. Revisión cruzada: cada integrante revisó los commits del otro.
 - **Herramientas de apoyo:** `pytest` + `pytest-cov`, `pyflakes` (análisis estático) y `radon` (complejidad ciclomática e índice de mantenibilidad).
 - **Resultado:** aprobado con 5 correcciones aplicadas (commit `fix(review): correcciones del code review CR-01 a CR-05`), 1 corrección de lint y 3 observaciones aceptadas con justificación.
 
