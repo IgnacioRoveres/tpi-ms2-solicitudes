@@ -15,8 +15,6 @@
 | 5 | 04/11/2026 | Datos de los integrantes para asignar la autoría de los commits. | Commits y tags a nombre de cada integrante. |
 | 6 | 04/11/2026 | Pedido de un guion del video por cada cambio. | Guion con un bloque por commit. |
 
-Evidencia: conversación completa exportada a PDF en el anexo (`anexo/conversacion_ia.pdf`).
-
 ## Qué verificó el equipo
 
 - [ ] Ejecutamos `python sistema.py` y probamos las 6 opciones.

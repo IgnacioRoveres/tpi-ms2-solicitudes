@@ -12,7 +12,7 @@ El objetivo del trabajo no es la funcionalidad sino la **evolución de la calida
 | Integrante | GitHub | Aporte principal |
 | --- | --- | --- |
 | Ignacio Roveres | [@IgnacioRoveres](https://github.com/IgnacioRoveres) | Estructura inicial, golden master, enums (R1), Move Method (R3), Extract Class/DIP (R5) |
-| Nidia Samaniego | [@usuario] | Versión inicial, diagnóstico, fix S7/S8, Extract Method (R2), Parameter Object (R4), pruebas unitarias, correcciones del code review |
+| Nidia Samaniego | [@Nidia-Samaniego] | Versión inicial, diagnóstico, fix S7/S8, Extract Method (R2), Parameter Object (R4), pruebas unitarias, correcciones del code review |
 
 ## Funcionalidades
 
